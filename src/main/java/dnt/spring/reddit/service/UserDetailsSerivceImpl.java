@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import dnt.spring.reddit.model.User;
 import dnt.spring.reddit.repository.UserRepository;
 
 @Service
+@Primary
 public class UserDetailsSerivceImpl implements UserDetailsService {
 
 	@Autowired
