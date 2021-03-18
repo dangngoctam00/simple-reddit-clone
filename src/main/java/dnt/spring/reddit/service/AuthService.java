@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -89,6 +90,18 @@ public class AuthService {
 				request.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticate);
 		return jwtProvider.generateToken(authenticate);
+	}
+	
+	@Transactional(readOnly = true)
+	public User getCurrentUser() {
+		org.springframework.security.core.userdetails.User principal = 
+				(org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userRepo.findByUsername(principal.getUsername()).orElseThrow(() -> new IllegalArgumentException("Username not found"));
+	}
+	
+	public boolean isLoggined() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
 	}
 
 }

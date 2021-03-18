@@ -3,7 +3,9 @@ package dnt.spring.reddit.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,9 +28,14 @@ public class SubReddit {
     private String name;
     @NotBlank(message = "Description is required")
     private String description;
-    @OneToMany(fetch = LAZY, mappedBy = "subreddit")
+    
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = LAZY, mappedBy = "subReddit")
     private List<Post> posts;
+	
     private Instant createdDate;
+    
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")
     private User user;

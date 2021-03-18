@@ -18,7 +18,9 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -34,18 +36,27 @@ public class User {
 	private String username;
 	private String password;
 	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Post> posts = new HashSet<Post>();
 	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Vote> votes = new HashSet<Vote>();
 	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Comment> comments = new HashSet<Comment>();
 	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<SubReddit> subReddits = new HashSet<SubReddit>();
 	
+
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private VerificationToken verificationToken;
 	
