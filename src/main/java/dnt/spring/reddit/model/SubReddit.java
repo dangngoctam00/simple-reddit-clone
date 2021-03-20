@@ -36,7 +36,15 @@ public class SubReddit {
 	
     private Instant createdDate;
     
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")
     private User user;
+
+	@Override
+	public String toString() {
+		return "SubReddit [id=" + id + ", name=" + name + ", description=" + description + ", posts=" + posts
+				+ ", createdDate=" + createdDate + ", user=" + user + "]";
+	}
 }

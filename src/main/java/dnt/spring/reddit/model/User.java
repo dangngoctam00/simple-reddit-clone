@@ -56,7 +56,8 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<SubReddit> subReddits = new HashSet<SubReddit>();
 	
-
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private VerificationToken verificationToken;
 	

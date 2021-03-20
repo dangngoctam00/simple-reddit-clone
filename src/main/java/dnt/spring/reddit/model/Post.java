@@ -22,6 +22,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Post {
     @Id
     @GeneratedValue(strategy = SEQUENCE)
@@ -39,7 +40,8 @@ public class Post {
    
     private Integer voteCount;
     
-    
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")
     private User user;
@@ -47,6 +49,8 @@ public class Post {
     
     private Instant createdDate;
     
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "subRedditId")
     private SubReddit subReddit;
@@ -60,4 +64,13 @@ public class Post {
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = LAZY, mappedBy = "post")
     private Set<Comment> comments;
+
+//	@Override
+//	public String toString() {
+//		return "Post [postId=" + postId + ", postName=" + postName + ", url=" + url + ", description=" + description
+//				+ ", voteCount=" + voteCount + ", user=" + user + ", createdDate=" + createdDate + ", subReddit="
+//				+ subReddit + ", votes=" + votes + ", comments=" + comments + "]";
+//	}
+    
+    
 }
