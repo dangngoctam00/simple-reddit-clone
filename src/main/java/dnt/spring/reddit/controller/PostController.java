@@ -18,7 +18,7 @@ import dnt.spring.reddit.service.PostService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("api/post")
+@RequestMapping("api/posts")
 @AllArgsConstructor
 public class PostController {
 	
