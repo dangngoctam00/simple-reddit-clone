@@ -14,4 +14,6 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
 	Optional<Vote> findByPostAndUserOrderByVoteIdDesc(Post post, User user);
 
+	Optional<Vote> findTopByPostAndUserOrderByVoteIdDesc(Post post, User currentUser);
+
 }
