@@ -55,4 +55,9 @@ public class CommentController {
 	public ResponseEntity<List<CommentDto>> getCommentsForUser(@PathVariable String userName) {
 		return new ResponseEntity<List<CommentDto>>(commentService.getCommentsForUser(userName), HttpStatus.OK);
 	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<TreeSet<CommentDto>> getCommentById(@PathVariable Long id) {
+		return new ResponseEntity<TreeSet<CommentDto>>(commentService.getCommentById(id), HttpStatus.OK);
+	}
 }

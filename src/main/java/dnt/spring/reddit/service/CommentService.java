@@ -3,6 +3,7 @@ package dnt.spring.reddit.service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import dnt.spring.reddit.exception.SpringRedditException;
 import dnt.spring.reddit.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,7 +37,11 @@ public class CommentService {
 	private UserRepository userRepo;
 	
 	public void save(CommentDto commentDto) {
-		commentRepo.save(commentMapper.mapDtoToComment(commentDto));
+		Comment comment = commentMapper.mapDtoToComment(commentDto);
+		if (commentDto.getParentCommentId() != null) {
+			comment.getParentComment().getComments().add(comment);
+		}
+		commentRepo.save(comment);
 	}
 
 	public List<CommentDto> getAllComments() {
@@ -78,6 +83,16 @@ public class CommentService {
 		Set<CommentDto> commentsDto = new TreeSet<>();
 		getCommentsForPostHelper(commentsInOrder, commentsDto);
 		return (TreeSet)(commentsDto);
+	}
+
+	public TreeSet<CommentDto> getCommentById(Long commentId) {
+		Comment comment = commentRepo.findById(commentId)
+				.orElseThrow(() -> new SpringRedditException(String.format("Comment with id %s not found", commentId)));
+		Set<Comment> comments = new TreeSet<>();
+		comments.add(comment);
+		Set<CommentDto> commentsDto = new TreeSet<>();
+		getCommentsForPostHelper(comments, commentsDto);
+		return (TreeSet<CommentDto>)(commentsDto);
 	}
 
 	private void getCommentsForPostHelper(Set<Comment> comments, Set<CommentDto> commentDtos) {

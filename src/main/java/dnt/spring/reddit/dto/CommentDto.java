@@ -16,16 +16,12 @@ public class CommentDto implements Comparable<CommentDto> {
 	private String text;
 	private Long postId;
 	private String userName;
-	private Instant createdDate;
+	private String duration;
 	private Set<CommentDto> comments;
 	private Long parentCommentId;
 
 	@Override
 	public int compareTo(@NotNull CommentDto other) {
-		int comparedValue = this.getCreatedDate().compareTo(other.getCreatedDate());
-		if (comparedValue == 0) {
-			comparedValue = this.getId().compareTo(other.getId());
-		}
-		return comparedValue;
+		return this.getId().compareTo(other.getId());
 	}
 }

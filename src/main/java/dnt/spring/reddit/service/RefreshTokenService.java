@@ -13,13 +13,16 @@ import dnt.spring.reddit.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 @Transactional
 public class RefreshTokenService {
 	
-	@Autowired
 	private final RefreshTokenRepository refreshTokenRepo;
 	
+	@Autowired
+	public RefreshTokenService(RefreshTokenRepository refreshTokenRepo) {
+		this.refreshTokenRepo = refreshTokenRepo;
+	}
+
 	public RefreshToken generateRefreshToken() {
 		RefreshToken refreshToken = new RefreshToken();
 		refreshToken.setCreatedDate(Instant.now());

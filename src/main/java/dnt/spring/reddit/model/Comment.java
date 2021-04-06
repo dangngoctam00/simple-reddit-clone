@@ -36,11 +36,11 @@ public class Comment implements Comparable<Comment> {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "parent_comment", nullable = true)
-    private Comment comment;
+    private Comment parentComment;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "parentComment")
     @OrderBy("createdDate, id")
     private Set<Comment> comments = new TreeSet<>();
 
