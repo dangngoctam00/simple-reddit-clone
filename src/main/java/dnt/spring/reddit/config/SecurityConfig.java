@@ -3,6 +3,7 @@ package dnt.spring.reddit.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -41,6 +42,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/api/auth/**")
 				.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/posts", "/api/subreddit/all")
+				.permitAll()
 			.antMatchers("/v2/api-docs",
 	                    "/configuration/ui",
 	                    "/swagger-resources/**",
@@ -68,8 +71,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration =  new CorsConfiguration();
 		configuration.setAllowCredentials(true);
-		configuration.addAllowedOrigin("*");
+		configuration.addAllowedOriginPattern("http://*");
 		configuration.addAllowedHeader("*");
+		configuration.addExposedHeader("Authorization");
 		configuration.addAllowedMethod("*");
 		UrlBasedCorsConfigurationSource source =
 	            new UrlBasedCorsConfigurationSource();

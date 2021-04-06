@@ -23,8 +23,15 @@ import dnt.spring.reddit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class PostService {
+	public PostService(UserRepository userRepo, PostRepository postRepo,
+					   SubRedditRepository subRedditRepo, AuthService authService, PostMapper postMapper) {
+		this.userRepo = userRepo;
+		this.postRepo = postRepo;
+		this.subRedditRepo = subRedditRepo;
+		this.authService = authService;
+		this.postMapper = postMapper;
+	}
 
 	private final UserRepository userRepo;
 	private final PostRepository postRepo;
@@ -32,14 +39,14 @@ public class PostService {
     private final AuthService authService;
     private final PostMapper postMapper;
 	
-   
 	public void create(PostRequest postRequest) {
 		SubReddit subReddit = subRedditRepo.findByName(postRequest.getSubredditName())
 				.orElseThrow(() -> new SubRedditNotFoundException("Invalid subreddit name"));
 		Post post = postMapper.mapToPost(postRequest, authService.getCurrentUser(), subReddit);
+		post.setSubReddit(subReddit);
 		authService.getCurrentUser().getPosts().add(post);
+		post = postRepo.save(post);
 		subReddit.getPosts().add(post);
-		postRepo.save(post);
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
@@ -64,9 +71,9 @@ public class PostService {
 		return postRepo.findAllBySubReddit(subReddit).stream().map(postMapper::mapToPostResponse).collect(Collectors.toList());
 	}
 
-	public List<PostResponse> getPostsByUser(Long id) {
-		User user = userRepo.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException(String.format("User with id %s not found", id)));
+	public List<PostResponse> getPostsByUser(String name) {
+		User user = userRepo.findByUsername(name).orElseThrow(
+				() -> new UsernameNotFoundException(String.format("User with id %s not found", name)));
 		return postRepo.findAllByUser(user).stream().map(postMapper::mapToPostResponse).collect(Collectors.toList());
 	}
 

@@ -1,7 +1,9 @@
 package dnt.spring.reddit.controller;
 
 import java.util.List;
+import java.util.TreeSet;
 
+import dnt.spring.reddit.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +34,21 @@ public class CommentController {
 	public ResponseEntity<List<CommentDto>> getAllComments() {
 		return new ResponseEntity<List<CommentDto>>(commentService.getAllComments(), HttpStatus.OK);
 	}
+
 	
 	@GetMapping("/by-post/{postId}")
-	public ResponseEntity<List<CommentDto>> getCommentsForPost(@PathVariable Long postId) {
-		return new ResponseEntity<List<CommentDto>>(commentService.getCommentsForPost(postId), HttpStatus.OK);
+	public ResponseEntity<TreeSet<CommentDto>> getCommentsForPost(@PathVariable Long postId) {
+		return new ResponseEntity<TreeSet<CommentDto>>(commentService.getCommentsForPost(postId), HttpStatus.OK);
+	}
+
+	@GetMapping("/by-post-without-dto/{postId}")
+	public ResponseEntity<TreeSet<Comment>> getCommentsForPostWithoutDto(@PathVariable Long postId) {
+		return new ResponseEntity<TreeSet<Comment>>(commentService.getCommentsForPostWithoutDto(postId), HttpStatus.OK);
+	}
+
+	@GetMapping("/by-post-in-order/{postId}")
+	public ResponseEntity<TreeSet<Comment>> getCommentsForPostInOrder(@PathVariable Long postId) {
+		return new ResponseEntity<TreeSet<Comment>>(commentService.getCommentsForPostInOrder(postId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/by-user/{userName}")

@@ -12,9 +12,11 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
@@ -25,7 +27,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @ToString
 public class Post {
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
+    @GeneratedValue(strategy = IDENTITY)
     private Long postId;
     
     @NotBlank(message = "Post Name cannot be empty or Null")
@@ -58,12 +60,12 @@ public class Post {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Vote> votes;
+    private Set<Vote> votes = new HashSet<>();
     
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
 //	@Override
 //	public String toString() {

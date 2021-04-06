@@ -10,9 +10,11 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
@@ -22,7 +24,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Builder
 public class SubReddit {
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @NotBlank(message = "Community name is required")
     private String name;
@@ -32,7 +34,7 @@ public class SubReddit {
 	@ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = LAZY, mappedBy = "subReddit")
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 	
     private Instant createdDate;
     

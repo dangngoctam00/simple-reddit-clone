@@ -31,7 +31,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<String> signup(@RequestBody SignupRequest request) {
 		authService.signup(request);
-		return new ResponseEntity<String>("Successful", HttpStatus.OK);
+		return new ResponseEntity<String>("successful", HttpStatus.OK);
 	}
 	
 	@GetMapping("/accountVerification/{token}")
@@ -40,13 +40,14 @@ public class AuthController {
 		return new ResponseEntity<String>("Account activated successfully", HttpStatus.OK);
 	}
 	
-	@PostMapping("/signin")
+	@PostMapping("/login")
 	public ResponseEntity<AuthenticationResponse> login(@RequestBody SigninRequest request) {
-		return new ResponseEntity<AuthenticationResponse>(authService.signin(request), HttpStatus.OK);
+		return authService.login(request);
 	}
 	
 	@PostMapping("/refresh/token")
 	public ResponseEntity<AuthenticationResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+//		System.out.println("Refresh token: " + refreshTokenRequest.getRefreshToken());
 		return new ResponseEntity<AuthenticationResponse>(authService.refreshToken(refreshTokenRequest), HttpStatus.OK);
 	}
 	

@@ -1,7 +1,11 @@
 package dnt.spring.reddit.mapper;
 
+
+import dnt.spring.reddit.exception.SpringRedditException;
+import dnt.spring.reddit.repository.CommentRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dnt.spring.reddit.dto.CommentDto;
@@ -14,21 +18,27 @@ import dnt.spring.reddit.service.AuthService;
 
 @Mapper(componentModel = "spring")
 public abstract class CommentMapper {
-	
+
 	@Autowired
 	private PostRepository postRepo;
 	@Autowired
 	private AuthService authService;
+	@Autowired
+	private CommentRepository commentRepo;
 	
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "text", source = "commentDto.text")
 	@Mapping(target = "post", expression = "java(mapPost(commentDto.getPostId()))")
 	@Mapping(target = "user", expression = "java(mapUser(commentDto.getUserName()))")
 	@Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
+	@Mapping(target = "comments", ignore = true)
+	@Mapping(target = "comment", expression = "java(mapComment(commentDto.getParentCommentId()))")
 	public abstract Comment mapDtoToComment(CommentDto commentDto);
 	
 	@Mapping(target = "postId", expression = "java(comment.getPost().getPostId())")
 	@Mapping(target = "userName", expression = "java(comment.getUser().getUsername())")
+	@Mapping(target = "parentCommentId", ignore = true)
+	@Mapping(target = "comments", ignore = true)
 	public abstract CommentDto mapToCommentDto(Comment comment);
 	
 	Post mapPost(Long postId) {
@@ -38,5 +48,10 @@ public abstract class CommentMapper {
 	
 	User mapUser(String userName) {
 		return authService.getCurrentUser();
+	}
+
+	Comment mapComment(Long parentCommentId) {
+		return commentRepo.findById(parentCommentId)
+				.orElseThrow(() -> new SpringRedditException(String.format("Comment with id %s not found", parentCommentId)));
 	}
 }

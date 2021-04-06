@@ -1,8 +1,9 @@
 package dnt.spring.reddit.service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import dnt.spring.reddit.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,19 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Service
-@AllArgsConstructor
 @NoArgsConstructor
 public class CommentService {
-	
 	@Autowired
+	public CommentService(CommentRepository commentRepo, CommentMapper commentMapper, PostRepository postRepo, UserRepository userRepo) {
+		this.commentRepo = commentRepo;
+		this.commentMapper = commentMapper;
+		this.postRepo = postRepo;
+		this.userRepo = userRepo;
+	}
+
 	private CommentRepository commentRepo;
-	@Autowired
 	private CommentMapper commentMapper;
-	@Autowired 
 	private PostRepository postRepo;
-	@Autowired
 	private UserRepository userRepo;
 	
 	public void save(CommentDto commentDto) {
@@ -40,10 +43,57 @@ public class CommentService {
 		return commentRepo.findAll().stream().map(commentMapper::mapToCommentDto).collect(Collectors.toList());
 	}
 
-	public List<CommentDto> getCommentsForPost(Long postId) {
-		Post post = postRepo.findById(postId).orElseThrow(() -> new PostNotFoundException(String.format("Post id %s not found", postId)));
-		return commentRepo.findAllByPost(post).stream().map(commentMapper::mapToCommentDto).collect(Collectors.toList());
+
+	public TreeSet<Comment> getCommentsForPostInOrder(Long postId) {
+		TreeSet<Comment> comments = getCommentsForPostWithoutDto(postId);
+		Set<Long> visited = new HashSet<>();
+		getCommentsInOrderHelper(comments, visited);
+		return comments;
 	}
+
+	public TreeSet<Comment> getCommentsForPostWithoutDto(Long postId) {
+		Post post = postRepo.findById(postId).orElseThrow(() -> new PostNotFoundException(String.format("Post id %s not found", postId)));
+		return commentRepo.findAllByPost(post);
+	}
+
+
+	private void getCommentsInOrderHelper(Set<Comment> comments, Set<Long> visited) {
+		Iterator<Comment> it = comments.iterator();
+		while (it.hasNext()) {
+			Comment comment = it.next();
+			if (visited.contains(comment.getId())) {
+				it.remove();
+			}
+			else {
+				visited.add(comment.getId());
+				if (comment.getComments() != null) {
+					getCommentsInOrderHelper(comment.getComments(), visited);
+				}
+			}
+		}
+	}
+
+	public TreeSet<CommentDto> getCommentsForPost(Long postId) {
+		Set<Comment> commentsInOrder = getCommentsForPostInOrder(postId);
+		Set<CommentDto> commentsDto = new TreeSet<>();
+		getCommentsForPostHelper(commentsInOrder, commentsDto);
+		return (TreeSet)(commentsDto);
+	}
+
+	private void getCommentsForPostHelper(Set<Comment> comments, Set<CommentDto> commentDtos) {
+		Iterator<Comment> it = comments.iterator();
+		while(it.hasNext()) {
+			Comment comment = it.next();
+			CommentDto commentDto = commentMapper.mapToCommentDto(comment);
+			commentDtos.add(commentDto);
+			if (comment.getComments() != null) {
+				commentDto.setComments(new TreeSet<>());
+				getCommentsForPostHelper(comment.getComments(), commentDto.getComments());
+			}
+		}
+	}
+
+
 
 	public List<CommentDto> getCommentsForUser(String userName) {
 		User user = userRepo.findByUsername(userName)

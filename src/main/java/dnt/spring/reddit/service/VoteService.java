@@ -16,15 +16,18 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import static dnt.spring.reddit.model.VoteType.*;
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class VoteService {
+	@Autowired
+	public VoteService(VoteRepository voteRepo, AuthService authService, PostRepository postRepo) {
+		this.voteRepo = voteRepo;
+		this.authService = authService;
+		this.postRepo = postRepo;
+	}
 
-	@Autowired
 	private VoteRepository voteRepo;
-	@Autowired
 	private AuthService authService;
-	@Autowired
 	private PostRepository postRepo;
 	
 	public void createVote(VoteDto voteDto) {
@@ -32,10 +35,15 @@ public class VoteService {
 	                .orElseThrow(() -> new PostNotFoundException("Post Not Found with ID - " + voteDto.getPostId()));
 		Optional<Vote> voteByPostAndUserOpt = voteRepo.findTopByPostAndUserOrderByVoteIdDesc(post, authService.getCurrentUser());
 		if (voteByPostAndUserOpt.isPresent() && voteByPostAndUserOpt.get().getVoteType().equals(voteDto.getVoteType())) {
-			throw new SpringRedditException("You have already "
-                    + voteDto.getVoteType() + "'d for this post");
+			voteRepo.delete(voteByPostAndUserOpt.get());
+			if (voteDto.getVoteType().equals(UPVOTE)) {
+				post.setVoteCount(post.getVoteCount() - 1);
+			}
+			else {
+				post.setVoteCount(post.getVoteCount() + 1);
+			}
 		}
-		if (UPVOTE.equals(voteDto.getVoteType())) {
+		else if (UPVOTE.equals(voteDto.getVoteType())) {
 			if (voteByPostAndUserOpt.isPresent()) {
 				voteRepo.delete(voteByPostAndUserOpt.get());
 				post.setVoteCount(post.getVoteCount() + 2);
@@ -43,6 +51,7 @@ public class VoteService {
 			else {
 				post.setVoteCount(post.getVoteCount() + 1);
 			}
+			voteRepo.save(mapToVote(voteDto, post));
 		}
 		else {
 			if (voteByPostAndUserOpt.isPresent()) {
@@ -52,9 +61,24 @@ public class VoteService {
 			else {
 				post.setVoteCount(post.getVoteCount() - 1);
 			}
+			voteRepo.save(mapToVote(voteDto, post));
 		}
 		postRepo.save(post);
-		voteRepo.save(mapToVote(voteDto, post));
+	}
+
+	public int currentUserVoted(Long postId) {
+		Post post = postRepo.findById(postId)
+				.orElseThrow(() -> new PostNotFoundException("Post Not Found with ID - " + postId));
+		Optional<Vote> voteOpt = voteRepo.findByPostAndUserOrderByVoteIdDesc(post, authService.getCurrentUser());
+		if (!voteOpt.isPresent()) {
+			return 0;
+		}
+		else if (UPVOTE.equals(voteOpt.get().getVoteType()))  {
+			return 1;
+		}
+		else {
+			return -1;
+		}
 	}
 	
 	Vote mapToVote(VoteDto voteDto, Post post) {

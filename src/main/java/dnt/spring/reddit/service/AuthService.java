@@ -5,8 +5,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,24 +31,30 @@ import dnt.spring.reddit.security.JwtProvider;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class AuthService {
 
 	@Autowired
+	public AuthService(UserRepository userRepo, PasswordEncoder passwordEncoder,
+					   VerificationTokenRepository verificationTokenRepo, MailService mailService,
+					   AuthenticationManager authManager, JwtProvider jwtProvider,
+					   RefreshTokenService refreshTokenService) {
+		this.userRepo = userRepo;
+		this.passwordEncoder = passwordEncoder;
+		this.verificationTokenRepo = verificationTokenRepo;
+		this.mailService = mailService;
+		this.authManager = authManager;
+		this.jwtProvider = jwtProvider;
+		this.refreshTokenService = refreshTokenService;
+	}
+
 	private UserRepository userRepo;
-	@Autowired
 	private PasswordEncoder passwordEncoder;
-	@Autowired
 	private VerificationTokenRepository verificationTokenRepo;
-	@Autowired
 	private MailService mailService;
-	@Autowired
 	private AuthenticationManager authManager;
-	@Autowired
 	private JwtProvider jwtProvider;
-	@Autowired
 	private RefreshTokenService refreshTokenService;
-	
+
 	@Transactional
 	public void signup(SignupRequest request) {
 		User user = new User();
@@ -87,17 +96,23 @@ public class AuthService {
 		userRepo.save(userOpt.get());
 	}
 
-	public AuthenticationResponse signin(SigninRequest request) {
-		Authentication authenticate = authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), 
-				request.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authenticate);
-		String jwt = jwtProvider.generateToken(authenticate);
-		return AuthenticationResponse.builder()
-				.jwtToken(jwt)
-				.refreshToken(refreshTokenService.generateRefreshToken().getToken())
-				.expiredAt(Instant.now().plusMillis(60*10*1000))
-				.username(request.getUsername())
-				.build();
+	public ResponseEntity<AuthenticationResponse> login(SigninRequest request) {
+		try {
+			Authentication authenticate = authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
+					request.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authenticate);
+			String jwt = jwtProvider.generateToken(authenticate);
+			return new ResponseEntity<>(AuthenticationResponse.builder()
+					.jwtToken(jwt)
+					.refreshToken(refreshTokenService.generateRefreshToken().getToken())
+					.expiredAt(Instant.now().plusMillis(60*10*1000))
+					.username(request.getUsername())
+					.build(), HttpStatus.OK);
+		}
+		catch (BadCredentialsException ex) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
 	}
 	
 	@Transactional(readOnly = true)

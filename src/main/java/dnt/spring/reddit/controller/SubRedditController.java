@@ -18,12 +18,15 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("api/subreddit")
-@AllArgsConstructor
 public class SubRedditController {
 	
+	private final SubRedditService subRedditService;
+
 	@Autowired
-	private SubRedditService subRedditService;
-	
+	public SubRedditController(SubRedditService subRedditService) {
+		this.subRedditService = subRedditService;
+	}
+
 	@PostMapping
 	public ResponseEntity<SubRedditDto> createSubReddit(@RequestBody SubRedditDto subRedditDto) {
 		return new ResponseEntity<SubRedditDto>(subRedditService.createSubReddit(subRedditDto), HttpStatus.CREATED);

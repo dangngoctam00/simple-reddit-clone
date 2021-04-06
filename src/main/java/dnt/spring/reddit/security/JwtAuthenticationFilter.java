@@ -20,15 +20,21 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
+	public JwtAuthenticationFilter(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
+		this.jwtProvider = jwtProvider;
+		this.userDetailsService = userDetailsService;
+	}
+
 	private JwtProvider jwtProvider;
-	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String jwtToken = getJwtFromRequest(request);
+//		System.out.println("filter jwt " + jwtToken);
 		if (jwtToken != null && jwtProvider.validateToken(jwtToken)) {
+			System.out.println(jwtToken);
 			String username = jwtProvider.getUsername(jwtToken);
 			User user = (User) userDetailsService.loadUserByUsername(username);
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -36,6 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
+//		System.out.println("filter jwt 1");
 		filterChain.doFilter(request, response);
 	}
 
