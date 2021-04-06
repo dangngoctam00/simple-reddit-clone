@@ -1,0 +1,21 @@
+
+    <div class="d-flex flex-column votebox">
+      <div class="p-2">
+        <fa-icon (click)="upvotePost()" class="upvote" [icon]="faArrowUp" [style.color]='upvoteColor'></fa-icon>
+        <div class="p-2 votecount">{{post.voteCount}}</div>
+        <fa-icon (click)="downvotePost()" class="downvote" [icon]="faArrowDown" [style.color]="downvoteColor"></fa-icon>
+      </div>
+
+<!--
+      <div class="p-2" *ngIf="voteStatus == 0">
+        <fa-icon (click)="upvotePost()" class="upvote" [icon]="faArrowUp" [style.color]='upvoteColor'></fa-icon>
+        <div class="p-2 votecount">{{post.voteCount}}</div>
+        <fa-icon (click)="downvotePost()" class="downvote" [icon]="faArrowDown" [style.color]="downvoteColor"></fa-icon>
+      </div>
+
+      <div class="p-2" *ngIf="voteStatus == -1">
+        <fa-icon (click)="upvotePost()" class="upvote" [icon]="faArrowUp" [style.color]='upvoteColor'></fa-icon>
+        <div class="p-2 votecount">{{post.voteCount}}</div>
+        <fa-icon (click)="downvotePost()" class="downvote" [icon]="faArrowDown" [style.color]='red'></fa-icon>
+      </div> -->
+    </div>

@@ -1,0 +1,39 @@
+.comment-box {
+  margin-left: 20px;
+  border-top: 1px solid black;
+}
+
+.duration {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.reply-form::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.reply-form {
+  margin-bottom: 10px;
+}
+
+.reply-btn {
+  background-color: #5488c7 !important;
+  color: #fff;
+  outline: none !important;
+  border: none;
+  border-radius: 3px;
+  padding: 4px 16px;
+}
+
+.comment {
+  margin-bottom: 4px;
+}
+
+.user-info {
+  margin-top: 4px;
+}

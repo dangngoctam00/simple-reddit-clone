@@ -1,0 +1,23 @@
+<div class="comment-box">
+  <div class="user-info">
+    <a routerLink="/user-profile/{{post.userName}}">{{post.userName}}</a>
+    <div class="duration">{{comment.duration}}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="comment">
+    {{comment.text}}
+  </div>
+  <div class="post-comment">
+    <form class="reply-form" [formGroup]="replyForm" (ngSubmit)="replyComment()">
+      <div class="form-group">
+        <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
+      </div>
+      <button type="submit" class="float-right reply-btn">Comment</button>
+    </form>
+  </div>
+  <div *ngIf="comment.comments.length != 0">
+    <div *ngFor="let subComment of comment.comments">
+      <app-comment [post]="post" [comment]="subComment"></app-comment>
+    </div>
+  </div>
+</div>

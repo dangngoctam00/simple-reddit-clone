@@ -24,9 +24,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/select2/dist/css/select2.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/select2/dist/js/select2.full.js",
+              "node_modules/select2/dist/js/select2.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -120,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "clone-reddit-frontend"
+  "defaultProject": "clone-reddit-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

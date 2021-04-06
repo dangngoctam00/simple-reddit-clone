@@ -1,0 +1,31 @@
+.votebox {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    font-size: 1em;
+}
+
+.votesection{
+    margin:0px;
+    background-color: #ffffff;
+}
+.upvote,.downvote {
+    cursor: pointer;
+    border-radius: 2px solid;
+    padding: 5px 5px;
+}
+.upvote:hover {
+    background-color: #ccc;
+    color: #008080;
+}
+
+
+.downvote:hover {
+  background-color: #ccc;
+  color: #eb0303;
+
+}
+
+.votecount{
+    font-weight: bold;
+}
