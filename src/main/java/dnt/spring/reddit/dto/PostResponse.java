@@ -6,7 +6,7 @@ import lombok.Data;
 public class PostResponse {
 	private Long id;
     private String postName;
-    private String url;
+    private String slug;
     private String description;
     private String userName;
     private String subRedditName;

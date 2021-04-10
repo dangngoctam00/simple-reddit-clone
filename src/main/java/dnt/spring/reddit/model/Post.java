@@ -32,9 +32,9 @@ public class Post {
     
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
-    
-    @Nullable
-    private String url;
+
+    @NotBlank(message = "Slug cannot be empty or null")
+    private String slug;
     
     @Nullable
     @Lob

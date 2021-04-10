@@ -19,12 +19,15 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("api/posts")
-@AllArgsConstructor
 public class PostController {
 	
+	private final PostService postService;
+
 	@Autowired
-	private PostService postService;
-	
+	public PostController(PostService postService) {
+		this.postService = postService;
+	}
+
 	@PostMapping
 	public ResponseEntity<String> createPost(@RequestBody PostRequest postRequest) {
 		postService.create(postRequest);
@@ -36,9 +39,14 @@ public class PostController {
 		return new ResponseEntity<List<PostResponse>>(postService.getAllPosts(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{postId}")
-	public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
-		return new ResponseEntity<PostResponse>(postService.getPost(postId), HttpStatus.OK);
+	@GetMapping("/id/{postId}")
+	public ResponseEntity<PostResponse> getPostById(@PathVariable Long postId) {
+		return new ResponseEntity<PostResponse>(postService.getPostById(postId), HttpStatus.OK);
+	}
+
+	@GetMapping("/{slug}")
+	public ResponseEntity<PostResponse> getPostBySlug(@PathVariable String slug) {
+		return new ResponseEntity<PostResponse>(postService.getPostBySlug(slug), HttpStatus.OK);
 	}
 	
 	@GetMapping("/by-subreddit/{id}")

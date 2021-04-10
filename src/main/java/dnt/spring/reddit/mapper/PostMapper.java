@@ -1,5 +1,6 @@
 package dnt.spring.reddit.mapper;
 
+import dnt.spring.reddit.service.SlugService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public abstract class PostMapper {
 	@Mapping(target = "postName", source = "postRequest.postName")
 	@Mapping(target = "subReddit", source = "subReddit")
 	@Mapping(target = "user", source = "user")
+//	@Mapping(target = "slug", expression = "java(toSlug(postRequest.getPostName()))")
+	@Mapping(target = "slug", ignore = true)
 	public abstract Post mapToPost(PostRequest postRequest, User user, SubReddit subReddit);
 	
 	@Mapping(target = "id", source = "postId")
@@ -44,6 +47,7 @@ public abstract class PostMapper {
     @Mapping(target = "duration", expression = "java(getDuration(post))")
     @Mapping(target = "upVote", expression = "java(isPostUpVoted(post))")
     @Mapping(target = "downVote", expression = "java(isPostDownVoted(post))")
+	@Mapping(target = "slug", source = "slug")
 	public abstract PostResponse mapToPostResponse(Post post);
 	
 	Integer commentCount(Post post) {
@@ -70,4 +74,8 @@ public abstract class PostMapper {
 		}
 		return false;
 	}
+
+//	String toSlug(String name) {
+//		return SlugService.toSlug(name);
+//	}
 }

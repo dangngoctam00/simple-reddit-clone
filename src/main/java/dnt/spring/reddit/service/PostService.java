@@ -1,8 +1,11 @@
 package dnt.spring.reddit.service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+import dnt.spring.reddit.exception.InvalidRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +27,8 @@ import lombok.AllArgsConstructor;
 
 @Service
 public class PostService {
+
+	@Autowired
 	public PostService(UserRepository userRepo, PostRepository postRepo,
 					   SubRedditRepository subRedditRepo, AuthService authService, PostMapper postMapper) {
 		this.userRepo = userRepo;
@@ -40,9 +45,15 @@ public class PostService {
     private final PostMapper postMapper;
 	
 	public void create(PostRequest postRequest) {
+		String slug = SlugService.toSlug(postRequest.getPostName());
+		if (postRepo.findBySlug(slug).isPresent()) {
+			throw new InvalidRequestException(String.format("Duplicate title name: %s", postRequest.getPostName()));
+		}
 		SubReddit subReddit = subRedditRepo.findByName(postRequest.getSubredditName())
 				.orElseThrow(() -> new SubRedditNotFoundException("Invalid subreddit name"));
 		Post post = postMapper.mapToPost(postRequest, authService.getCurrentUser(), subReddit);
+		//manually set it
+		post.setSlug(SlugService.toSlug(post.getPostName()));
 		post.setSubReddit(subReddit);
 		authService.getCurrentUser().getPosts().add(post);
 		post = postRepo.save(post);
@@ -59,7 +70,7 @@ public class PostService {
 	}
 
 	@Transactional(readOnly = true)
-	public PostResponse getPost(Long postId) {
+	public PostResponse getPostById(Long postId) {
 		System.out.println("get post method " + TransactionAspectSupport.currentTransactionStatus());
 		return postMapper.mapToPostResponse(postRepo.findById(postId)
 				.orElseThrow(() -> new PostNotFoundException(String.format("Post with %l not found", postId))));
@@ -77,4 +88,10 @@ public class PostService {
 		return postRepo.findAllByUser(user).stream().map(postMapper::mapToPostResponse).collect(Collectors.toList());
 	}
 
+	@Transactional
+	public PostResponse getPostBySlug(String slug) {
+		Post post = postRepo.findBySlug(slug)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("%s is not valid slug", slug)));
+		return postMapper.mapToPostResponse(post);
+	}
 }
