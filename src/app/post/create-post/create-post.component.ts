@@ -28,7 +28,7 @@ export class CreatePostComponent implements OnInit {
     });
     this.postPayload = {
       postName: '',
-      url: '',
+      slug: '',
       description: '',
       subredditName: ''
     };
@@ -46,7 +46,6 @@ export class CreatePostComponent implements OnInit {
   createPost(): void {
     this.postPayload.postName = this.createPostForm.get('postName').value;
     this.postPayload.subredditName = this.createPostForm.get('subredditName').value;
-    this.postPayload.url = this.createPostForm.get('url').value;
     this.postPayload.description = this.createPostForm.get('description').value;
     // tslint:disable-next-line: deprecation
     this.postService.createPost(this.postPayload).subscribe((data) => {

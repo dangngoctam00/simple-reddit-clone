@@ -1,18 +1,21 @@
 <div class="comment-box">
   <div class="user-info">
-    <a routerLink="/user-profile/{{post.userName}}">{{post.userName}}</a>
+    <a class="username" routerLink="/user-profile/{{post.userName}}">{{post.userName}}</a>
     <div class="duration">{{comment.duration}}</div>
     <div class="clear"></div>
   </div>
   <div class="comment">
     {{comment.text}}
   </div>
-  <div class="post-comment">
+  <button (click)="openReplyBox()" class="open-reply-btn">Reply</button>
+  <button (click)="openReplyBox()" class="open-reply-btn">Share</button>
+  <div class="post-comment" *ngIf="postCommentFlag">
     <form class="reply-form" [formGroup]="replyForm" (ngSubmit)="replyComment()">
       <div class="form-group">
         <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
       </div>
       <button type="submit" class="float-right reply-btn">Comment</button>
+      <button type="button" (click)="discardComment()" class="float-right discard-btn">Discard</button>
     </form>
   </div>
   <div *ngIf="comment.comments.length != 0">

@@ -21,7 +21,7 @@
   margin-bottom: 10px;
 }
 
-.reply-btn {
+.reply-btn, .discard-btn {
   background-color: #5488c7 !important;
   color: #fff;
   outline: none !important;
@@ -30,10 +30,33 @@
   padding: 4px 16px;
 }
 
+.discard-btn {
+  background-color: #e25e46 !important;
+  margin-right: 4px;
+}
+
 .comment {
   margin-bottom: 4px;
+  font-size: 16px;
+  opacity: 1;
+  color: #000;
 }
 
 .user-info {
-  margin-top: 4px;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+
+.post-comment {
+  margin-top: 10px;
+}
+
+.open-reply-btn {
+  border: none;
+  text-decoration: none;
+  opacity: 0.5;
+  background-color: #fff;
+  padding: 0px;
+  font-size: 14px;
 }

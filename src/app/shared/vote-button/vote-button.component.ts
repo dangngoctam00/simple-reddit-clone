@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/auth/shared/auth.service';
 import { PostModel } from '../post-model';
 import { PostService } from '../post.service';
 import { VoteService } from '../vote.service';
@@ -22,7 +24,8 @@ export class VoteButtonComponent implements OnInit {
   teal = 'blue';
   red = 'black';
   votePayload: VotePayload;
-  constructor(private voteService: VoteService, private postService: PostService) {
+  constructor(private voteService: VoteService, private postService: PostService,
+              private router: Router, private authService: AuthService) {
     this.upvoteColor = '';
     this.downvoteColor = '';
   }
@@ -50,6 +53,9 @@ export class VoteButtonComponent implements OnInit {
   }
 
   upvotePost(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/login');
+    }
     this.votePayload = {
       voteType: 'UPVOTE',
       postId: this.post.id
@@ -65,6 +71,9 @@ export class VoteButtonComponent implements OnInit {
       err => console.log('upvote failed'));
   }
   downvotePost(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/login');
+    }
     this.votePayload = {
       voteType: 'DOWNVOTE',
       postId: this.post.id
@@ -102,7 +111,7 @@ export class VoteButtonComponent implements OnInit {
 
   getPostDetails(): void {
     // tslint:disable-next-line: deprecation
-    this.postService.getPostById(this.post.id).subscribe(data => this.post = data, err => console.log('get post failed'));
+    this.postService.getPostBySlug(this.post.slug).subscribe(data => this.post = data, err => console.log('get post failed'));
   }
 
 }

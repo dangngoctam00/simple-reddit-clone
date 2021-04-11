@@ -17,3 +17,12 @@
   .sidebar-view-subreddit {
     height: 280px;
   }
+
+  .view-all {
+    display: inline-block;
+    padding: 4px 20%;
+    border: 1px solid #000;
+    color: #fff;
+    background-color: #0079D3;
+    border-radius: 20px;
+  }

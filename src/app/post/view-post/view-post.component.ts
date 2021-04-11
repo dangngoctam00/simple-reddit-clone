@@ -14,7 +14,7 @@ import { PostService } from 'src/app/shared/post.service';
 })
 export class ViewPostComponent implements OnInit {
 
-  postId: number;
+  postSlug: string;
   post: PostModel;
   commentForm: FormGroup;
   commentPayload: CommentPayload;
@@ -22,21 +22,20 @@ export class ViewPostComponent implements OnInit {
 
   constructor(private postService: PostService, private activatedRoute: ActivatedRoute,
               private commentService: CommentService) {
-    this.postId = this.activatedRoute.snapshot.params.id;
+    this.postSlug = this.activatedRoute.snapshot.params.slug;
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required)
     });
     this.commentPayload = {
       id: null,
       text: '',
-      postId: this.postId,
+      postId: null,
       parentCommentId: null,
       duration: null,
       username: '',
       comments: null
     };
-    this.getPostById();
-    this.getCommentsForPost();
+    this.getPostBySlug();
   }
 
   ngOnInit(): void {
@@ -44,12 +43,13 @@ export class ViewPostComponent implements OnInit {
 
   }
 
-  private getPostById(): void {
+  private getPostBySlug(): void {
     console.log('get post');
     // tslint:disable-next-line: deprecation
-    this.postService.getPostById(this.postId).subscribe(data => {
+    this.postService.getPostBySlug(this.postSlug).subscribe(data => {
       console.log(data);
       this.post = data;
+      this.getCommentsForPost();
     }, error => {
       console.log('get post failed');
     });
@@ -57,7 +57,7 @@ export class ViewPostComponent implements OnInit {
 
   private getCommentsForPost(): void {
     // tslint:disable-next-line: deprecation
-    this.commentService.getCommentsForPost(this.postId).subscribe(
+    this.commentService.getCommentsForPost(this.post.id).subscribe(
       data => {
         this.comments = data;
       }, error => {
@@ -67,7 +67,7 @@ export class ViewPostComponent implements OnInit {
   }
 
   postComment(): void {
-    this.commentPayload.postId = this.postId;
+    this.commentPayload.postId = this.post.id;
     this.commentPayload.text = this.commentForm.get('text').value;
     this.commentPayload.parentCommentId = null;
     // tslint:disable-next-line: deprecation

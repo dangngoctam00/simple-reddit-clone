@@ -15,21 +15,23 @@
         </span>
       </span>
       <hr />
-      <div class="post-title">
-        <a class="postname" href="{{post.url}}">{{post.postName}}</a>
+      <div class="read-post" (click)="goToPost(post.slug)" style="cursor: pointer;">
+        <div class="post-title">
+          <a class="postname" routerLink="/view-post/{{post.slug}}">{{post.postName}}</a>
+        </div>
+        <div>
+          <p class="post-text" [innerHtml]="post.description" ></p>
+        </div>
+        <hr />
+        <span>
+          <a class="btnCommments" role="button">
+            <fa-icon [icon]="faComments"></fa-icon>
+            Comments({{post.commentCount}})
+          </a>
+          <!-- <button class="read-more-btn" (click)="goToPost(post.slug)">
+            Read Post
+          </button> -->
+        </span>
       </div>
-      <div>
-        <p class="post-text" [innerHtml]="post.description" ></p>
-      </div>
-      <hr />
-      <span>
-        <a class="btnCommments" role="button">
-          <fa-icon [icon]="faComments"></fa-icon>
-          Comments({{post.commentCount}})
-        </a>
-        <button class="read-more-btn" (click)="goToPost(post.id)">
-          Read Post
-        </button>
-      </span>
     </div>
   </div>

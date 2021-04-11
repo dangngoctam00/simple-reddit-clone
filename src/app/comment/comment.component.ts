@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { from } from 'rxjs';
 import { PostModel } from '../shared/post-model';
 import { CommentPayload } from './comment-payload';
 import { CommentService } from './comment.service';
@@ -13,10 +15,13 @@ export class CommentComponent implements OnInit {
 
   @Input() post: PostModel;
   @Input() comment: CommentPayload;
+  isLoaded: boolean;
   comments: CommentPayload[];
   replyForm: FormGroup;
   replyCommentPayload: CommentPayload;
-  constructor(private commentService: CommentService) {
+  postCommentFlag: boolean;
+  constructor(private commentService: CommentService, private router: Router) {
+    this.isLoaded = true;
     this.replyForm = new FormGroup({
       text: new FormControl('', Validators.required),
       parentCommentId: new FormControl('', Validators.required)
@@ -32,7 +37,9 @@ export class CommentComponent implements OnInit {
     };
   }
 
+
   ngOnInit(): void {
+    this.postCommentFlag = false;
   }
 
   replyComment(): void {
@@ -44,18 +51,33 @@ export class CommentComponent implements OnInit {
       data => {
         this.replyForm.get('text').setValue('');
         // tslint:disable-next-line: deprecation
-        this.commentService.getCommentsForPost(this.post.id).subscribe(
-          result => {
-            this.comment = result[0];
-          }, error => {
-            console.log('get comments for posts failed');
-          }
-        );
+        // this.commentService.getCommentsForPost(this.post.id).subscribe(
+        //   result => {
+        //     this.comment = result[0];
+        //     this.isLoaded = true;
+        //   }, error => {
+        //     console.log('reply comment for posts failed');
+        //   }
+        // );
+        this.postCommentFlag = false;
+        window.location.reload();
       },
       error => {
         console.log('create reply comment failed');
       }
     );
+  }
+
+  openReplyBox(): void {
+    this.postCommentFlag = true;
+  }
+
+  discardComment(): void {
+    this.postCommentFlag = false;
+    this.replyForm = new FormGroup({
+      text: new FormControl('', Validators.required),
+      parentCommentId: new FormControl('', Validators.required)
+    });
   }
 
 }

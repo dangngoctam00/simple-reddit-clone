@@ -1,6 +1,6 @@
 export class CreatePostPayload {
     postName: string;
-    subredditName?: string;
-    url?: string;
+    subredditName: string;
+    slug: string;
     description: string;
 }

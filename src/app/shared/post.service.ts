@@ -25,9 +25,14 @@ export class PostService {
     return this.httpClient.post(this.url, postPayload, {responseType: 'text'});
   }
 
+  getPostBySlug(slug: string): Observable<PostModel> {
+    console.log(this.url);
+    return this.httpClient.get<PostModel>(this.url + '/' + slug);
+  }
+
   getPostById(id: number): Observable<PostModel> {
     console.log(this.url);
-    return this.httpClient.get<PostModel>(this.url + '/' + id);
+    return this.httpClient.get<PostModel>(this.url + '/id/' + id);
   }
 
   getAllPostsByUser(name: string): Observable<PostModel[]> {

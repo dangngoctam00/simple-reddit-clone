@@ -30,8 +30,8 @@ export class PostTitleComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToPost(id: number): void {
-    this.router.navigateByUrl('/view-post/' + id);
+  goToPost(slug: string): void {
+    this.router.navigateByUrl('/view-post/' + slug);
   }
 
 }
