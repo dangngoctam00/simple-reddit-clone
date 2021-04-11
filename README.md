@@ -2,26 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
-## Development server
+## About
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This repo is based on the [tutorial](https://www.youtube.com/watch?v=7PsjGI-88sc&list=PLSVW22jAG8pAGrwFjsUERCu9WSo2-uEMg) on youtube.
 
-## Code scaffolding
+This client uses api to connect to [server](https://github.com/dangngoctam00/clone-reddit).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Demo images
 
-## Build
+Home page
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+![home page](images/home_page.png)
 
-## Running unit tests
+After login, the user can create posts and subreddit, vote post, leave comments,...
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![after logined](images/after_login.png)
