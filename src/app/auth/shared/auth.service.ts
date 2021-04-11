@@ -20,10 +20,6 @@ export class AuthService {
   // tslint:disable-next-line: no-unused-expression
   @Output() username: EventEmitter<string> = new EventEmitter();
 
-  refreshTokenPayload = {
-    refreshToken: this.getRefreshToken(),
-    username: this.getUserName()
-  };
 
   constructor(private httpClient: HttpClient, private localStorage: LocalStorageService,
               private router: Router) {}
@@ -52,8 +48,12 @@ export class AuthService {
   }
 
   logout(): void {
+    const refreshTokenPayload = {
+      refreshToken: this.getRefreshToken(),
+      username: this.getUserName()
+    };
     console.log('http://localhost:8080/api/auth/logout');
-    this.httpClient.post('http://localhost:8080/api/auth/logout', this.refreshTokenPayload,
+    this.httpClient.post('http://localhost:8080/api/auth/logout', refreshTokenPayload,
       { responseType: 'text' })
       // tslint:disable-next-line: deprecation
       .subscribe(data => {
@@ -72,7 +72,7 @@ export class AuthService {
       refreshToken: this.getRefreshToken(),
       username: this.getUserName()
     };
-    console.log(this.url + '/refresh/token' + '/nrefresh token: ' + refreshTokenPayload.refreshToken);
+    console.log(this.url + '/refresh/token' + '/refresh token: ' + refreshTokenPayload.refreshToken);
     return this.httpClient.post<LoginResponsePayload>(this.url + 'refresh/token', refreshTokenPayload)
       .pipe(tap(response => {
         this.localStorage.store('jwtToken', response.jwtToken);
