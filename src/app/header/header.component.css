@@ -1,0 +1,154 @@
+.clear {
+  clear: both;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+header.header{
+    border-radius: 1px solid;
+    display: block !important;
+}
+
+
+.reddit-icon-svg{
+    height: 50px;
+    padding: 8px 8px 8px 0;
+    width: 50px;
+}
+
+.reddit-text{
+    font-weight: 700;
+    height: 50px;
+    width: 50px;
+}
+.logo{
+    text-decoration: none;
+}
+
+.login, .signup{
+    background-color: transparent;
+    border-color: #0079D3;
+    color: #0079D3;
+    fill: #0079D3;
+    border: 1px solid;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 24px;
+    text-transform: uppercase;
+    padding: 3px 16px;
+    opacity: 1;
+}
+.signup{
+    background-color: #0079D3;
+    border-color: #0079D3;
+    color: aliceblue;
+}
+
+.signup:hover{
+    opacity: 0.6;
+}
+
+
+.userdetails{
+  background-color: transparent;
+  color: #0079D3;
+  fill: #0079D3;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  /* line-height: 24px; */
+  text-transform: uppercase;
+  padding: 3px 16px;
+  opacity: 1;
+  height: 40px;
+
+  /* position: relative; */
+  display: flex;
+}
+
+
+.userdetails:hover{
+  cursor: pointer;
+}
+
+/* .userdetails:active .subnav {
+  display: block;
+} */
+
+
+/* .dropdown-item{
+  background-color: #f8f9fa;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+} */
+
+.dropdown-item:hover{
+  background-color: #ccc;
+}
+
+.dropdown-menu{
+  background-color: #f8f9fa;
+}
+
+
+.account-icon{
+  border-radius: 50%;
+  /* float: left; */
+  margin-right: 5px;
+  max-height: 30px;
+  max-width: 30px;
+  display: inline-block;
+}
+
+.item {
+  font-size: 16px;
+  color: rgba(0,0,0,0.75);
+}
+
+.item + .item {
+  border-top: 1px solid #ccc;;
+}
+
+
+
+.icon-item {
+  margin-right: 15px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.dropdown-icon {
+  /* border: 1px solid green; */
+  font-size: 20px;
+  display: inline-block;
+  /* padding: 12px 0; */
+}
+
+.custom-item {
+  padding-left: 20px;
+}
+
+.sub-menu {
+  margin-top: 4px;
+  padding: 0;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
