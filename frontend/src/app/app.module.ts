@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -23,9 +22,18 @@ import { CreatePostComponent } from './post/create-post/create-post.component';
 import { ListSubredditsComponent } from './subreddit/list-subreddits/list-subreddits.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ViewPostComponent } from './post/view-post/view-post.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileComponent } from './auth/user-profile/user-profile.component';
 import { CommentComponent } from './comment/comment.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NzGridModule} from 'ng-zorro-antd/grid';
+import {NzInputModule} from 'ng-zorro-antd/input';
+
+registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,9 +62,12 @@ import { CommentComponent } from './comment/comment.component';
     ToastrModule.forRoot(),
     FontAwesomeModule,
     EditorModule,
-    NgbModule
+    NzDropDownModule,
+    NzIconModule,
+    NzGridModule,
+    NzInputModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

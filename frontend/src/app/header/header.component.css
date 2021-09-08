@@ -1,39 +1,91 @@
-.clear {
-  clear: both;
-}
 
 .pointer:hover {
   cursor: pointer;
 }
 
-header.header{
-    border-radius: 1px solid;
-    display: block !important;
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 2px 8px #f0f1f2;
 }
 
+header > .header-row {
+  width: 100%;
+}
+
+header .search-holder {
+  display: flex;
+  align-items: center;
+}
+
+header .icon-holder {
+  padding-left: 1em;
+}
 
 .reddit-icon-svg{
-    height: 50px;
-    padding: 8px 8px 8px 0;
-    width: 50px;
+  height: 50px;
+  padding: 8px 8px 8px 0;
+  width: 50px;
 }
 
 .reddit-text{
-    font-weight: 700;
-    height: 50px;
-    width: 50px;
+  font-weight: 700;
+  height: 50px;
+  width: 50px;
 }
 .logo{
-    text-decoration: none;
+  text-decoration: none;
+}
+
+header .user-holder {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2em;
+}
+
+.view-options-btn {
+  font-size: 1em;
+  box-sizing: border-box;
+  background: transparent;
+  padding: 0.25em 0.75em 0.25em 0.75em;
+  height: 2em;
+  border: none;
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.view-options-btn .arrow-holder {
+  display: flex;
+  align-items: center;
+}
+
+ul.custom-dropdown-menu > li {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+ul.custom-dropdown-menu > li > div {
+  display: flex;
+  align-items: center;
+}
+
+.view-options-btn:hover {
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
 }
 
 .login, .signup{
     background-color: transparent;
-    border-color: #0079D3;
-    color: #0079D3;
+  color: #0079D3;
     fill: #0079D3;
-    border: 1px solid;
-    border-radius: 4px;
+  border: 1px solid #0079D3;
+  border-radius: 4px;
     box-sizing: border-box;
     text-align: center;
     letter-spacing: 1px;
@@ -57,7 +109,7 @@ header.header{
 }
 
 
-.userdetails{
+.user-details{
   background-color: transparent;
   color: #0079D3;
   fill: #0079D3;
@@ -78,25 +130,6 @@ header.header{
   /* position: relative; */
   display: flex;
 }
-
-
-.userdetails:hover{
-  cursor: pointer;
-}
-
-/* .userdetails:active .subnav {
-  display: block;
-} */
-
-
-/* .dropdown-item{
-  background-color: #f8f9fa;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
-  display: inline-block;
-  vertical-align: middle;
-} */
 
 .dropdown-item:hover{
   background-color: #ccc;
@@ -125,7 +158,9 @@ header.header{
   border-top: 1px solid #ccc;;
 }
 
-
+.custom-dropdown-menu {
+  margin-top: 1em;
+}
 
 .icon-item {
   margin-right: 15px;

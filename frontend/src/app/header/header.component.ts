@@ -11,8 +11,7 @@ import { AuthService } from '../auth/shared/auth.service';
 })
 export class HeaderComponent implements OnInit {
   faUser = faUser;
-  faSignOutAlt = faSignOutAlt;
-  faDropDown = faCaretDown;
+
   isLoggedIn: boolean;
   username: string;
   isDataLoaded = false;
