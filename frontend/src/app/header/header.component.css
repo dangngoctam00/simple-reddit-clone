@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0 2px 8px #f0f1f2;
+  box-shadow: 0 2px 8px #F0F1F2;
 }
 
 header > .header-row {
@@ -39,6 +39,15 @@ header .icon-holder {
   text-decoration: none;
 }
 
+.search {
+  background: #F6F7F8;
+  color: #1C1C1C;
+}
+
+.search input {
+  background: #F6F7F8;
+}
+
 header .user-holder {
   display: flex;
   align-items: center;
@@ -46,17 +55,27 @@ header .user-holder {
   padding-right: 2em;
 }
 
+.username {
+  line-height: 100%;
+}
+
 .view-options-btn {
   font-size: 1em;
   box-sizing: border-box;
   background: transparent;
-  padding: 0.25em 0.75em 0.25em 0.75em;
-  height: 2em;
-  border: none;
+  padding: 0.75em 0.75em 0.75em 0.75em;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
   width: 150px;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+}
+
+.view-options-btn:hover,
+.view-options-btn:focus {
+  border-color: #F0F3F4;
+  outline: none;
 }
 
 .view-options-btn .arrow-holder {
@@ -64,20 +83,39 @@ header .user-holder {
   align-items: center;
 }
 
+.custom-dropdown-menu {
+  font-size: 1em;
+  margin-top: -8px;
+  z-index: 1000;
+  box-shadow: none;
+  border: 1px solid #F0F3F4;
+  padding: 0px;
+}
+
 ul.custom-dropdown-menu > li {
   display: flex;
-  justify-content: space-around;
-  align-items: stretch;
+  /*justify-content: space-around;*/
+  align-items: center;
+  font-size: 1em;
+  padding: 0.75em 0.75em 0.75em;
+}
+
+ul.custom-dropdown-menu > li.ant-dropdown-menu-item-divider {
+  padding: 0;
+  margin: 0;
+}
+
+ul.custom-dropdown-menu > li > div {
+  margin-right: 2.5em;
+}
+
+ul.custom-dropdown-menu > li > span {
+  line-height: 1em;
 }
 
 ul.custom-dropdown-menu > li > div {
   display: flex;
   align-items: center;
-}
-
-.view-options-btn:hover {
-  border: 1px solid #ccc;
-  border-radius: 0.25em;
 }
 
 .login, .signup{
@@ -156,10 +194,6 @@ ul.custom-dropdown-menu > li > div {
 
 .item + .item {
   border-top: 1px solid #ccc;;
-}
-
-.custom-dropdown-menu {
-  margin-top: 1em;
 }
 
 .icon-item {

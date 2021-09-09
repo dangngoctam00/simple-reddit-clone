@@ -2,6 +2,11 @@
     margin-top: 100px;
 } */
 
+.application {
+  background: #DAE0E6;
+  height: 100%;
+}
+
 .header-wrapper {
   height: 50px;
   margin-bottom: 100px;

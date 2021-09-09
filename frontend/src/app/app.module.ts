@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TokenInterceptor } from './token-interceptor';
 import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PostTitleComponent } from './shared/post-title/post-title.component';
+import { PostOverviewComponent } from './post/post-overview/post-overview.component';
 import { VoteButtonComponent } from './shared/vote-button/vote-button.component';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { SubredditSideBarComponent } from './shared/subreddit-side-bar/subreddit-side-bar.component';
@@ -41,7 +41,7 @@ registerLocaleData(en);
     SignupComponent,
     LoginComponent,
     HomeComponent,
-    PostTitleComponent,
+    PostOverviewComponent,
     VoteButtonComponent,
     SideBarComponent,
     SubredditSideBarComponent,

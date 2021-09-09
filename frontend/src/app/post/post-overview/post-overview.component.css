@@ -1,0 +1,78 @@
+.post{
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background-color: rgba(255,255,255,0.8);
+  color: #878A8C;
+  position: relative;
+  border-radius: 4px;
+  padding: 5px 0px 5px 0px;
+}
+
+.body {
+  padding-left: 8px;
+}
+
+.vote-post {
+  background: #F7F9FA;
+  margin: 8px 0;
+}
+
+.meta-information {
+  margin: 8px 0;
+}
+
+.content {
+  margin-top: 8px;
+}
+
+.extra-information {
+  display: flex;
+}
+
+.extra-information > a {
+  color: #878A8C;
+  display: flex;
+  align-items: center;
+}
+
+.extra-information > a + a {
+  margin-left: 1.5em;
+}
+
+a > i {
+  margin-right: 4px;
+}
+
+
+.comments-btn:hover{
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+.post-name h3{
+  color: #222222;
+  font-size: 18px;
+  margin: 0;
+}
+
+.subreddit-text a {
+  font-weight: bold;
+  line-height: 100%;
+  color: #1C1C1C;
+}
+
+.read-more-btn {
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  color: rgb(112, 166, 228);
+  margin-left: 10px;
+}
+
+.btnCommments{
+  border-radius: 2px solid;
+  color: #878A8C;
+  opacity: 1;
+}

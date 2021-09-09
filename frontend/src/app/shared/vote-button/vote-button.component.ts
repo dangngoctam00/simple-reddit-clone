@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { PostModel } from '../post-model';
 import { PostService } from '../post.service';
@@ -17,17 +16,15 @@ export class VoteButtonComponent implements OnInit {
   @Input() post: PostModel;
 
   voteStatus: number;
-  faArrowUp = faArrowUp;
-  faArrowDown = faArrowDown;
-  upvoteColor: string;
-  downvoteColor: string;
+  upVoteColor: string;
+  downVoteColor: string;
   teal = 'blue';
   red = 'black';
   votePayload: VotePayload;
   constructor(private voteService: VoteService, private postService: PostService,
               private router: Router, private authService: AuthService) {
-    this.upvoteColor = '';
-    this.downvoteColor = '';
+    this.upVoteColor = '';
+    this.downVoteColor = '';
   }
 
   ngOnInit(): void {
@@ -35,20 +32,20 @@ export class VoteButtonComponent implements OnInit {
   }
 
   changeUpVoteColor(): void {
-    if (this.upvoteColor === '') {
-      this.upvoteColor = 'blue';
+    if (this.upVoteColor === '') {
+      this.upVoteColor = 'blue';
     }
     else {
-      this.upvoteColor = '';
+      this.upVoteColor = '';
     }
   }
 
-  changeDownVoteColor(): void {
-    if (this.downvoteColor === '') {
-      this.downvoteColor = 'red';
+  changedownVoteColor(): void {
+    if (this.downVoteColor === '') {
+      this.downVoteColor = 'red';
     }
     else {
-      this.downvoteColor = '';
+      this.downVoteColor = '';
     }
   }
 
@@ -61,8 +58,8 @@ export class VoteButtonComponent implements OnInit {
       postId: this.post.id
     };
     this.changeUpVoteColor();
-    if (this.downvoteColor !== '') {
-      this.changeDownVoteColor();
+    if (this.downVoteColor !== '') {
+      this.changedownVoteColor();
     }
     // tslint:disable-next-line: deprecation
     this.voteService.vote(this.votePayload).subscribe(data => {
@@ -70,7 +67,7 @@ export class VoteButtonComponent implements OnInit {
       },
       err => console.log('upvote failed'));
   }
-  downvotePost(): void {
+  downVotePost(): void {
     if (!this.authService.isLoggedIn()) {
       this.router.navigateByUrl('/login');
     }
@@ -78,15 +75,15 @@ export class VoteButtonComponent implements OnInit {
       voteType: 'DOWNVOTE',
       postId: this.post.id
     };
-    this.changeDownVoteColor();
-    if (this.upvoteColor !== '') {
+    this.changedownVoteColor();
+    if (this.upVoteColor !== '') {
       this.changeUpVoteColor();
     }
     // tslint:disable-next-line: deprecation
     this.voteService.vote(this.votePayload).subscribe(data => {
       this.getPostDetails();
     },
-    err => console.log('downvote failed'));
+    err => console.log('downVote failed'));
   }
 
   getCurrentVote(): void {
@@ -94,16 +91,16 @@ export class VoteButtonComponent implements OnInit {
       // tslint:disable-next-line: deprecation
       .subscribe(data => {
         if (data === 1) {
-          this.upvoteColor = 'blue';
-          this.downvoteColor = '';
+          this.upVoteColor = 'blue';
+          this.downVoteColor = '';
         }
         else if (data === 0) {
-          this.upvoteColor = '';
-          this.downvoteColor = '';
+          this.upVoteColor = '';
+          this.downVoteColor = '';
         }
         else {
-          this.upvoteColor = '';
-          this.downvoteColor = 'red';
+          this.upVoteColor = '';
+          this.downVoteColor = 'red';
         }
       },
         err => console.log('get current vote error'));

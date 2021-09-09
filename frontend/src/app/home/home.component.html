@@ -1,15 +1,16 @@
 <div class="reddit-body">
-    <div class="container">
-      <div class="row">
-        <hr />
-        <div class="col-md-9">
-          <!-- Display Posts-->
-          <app-post-title [posts]="posts"></app-post-title>
-        </div>
-        <div class="col-md-3">
-          <app-side-bar></app-side-bar>
-          <app-subreddit-side-bar></app-subreddit-side-bar>
-        </div>
+  <div class="container">
+    <div nz-row>
+      <hr />
+      <div nz-col nzSpan="14" >
+        <!-- Display Posts-->
+        <app-post-title [posts]="posts"></app-post-title>
+      </div>
+      <div nz-col nzSpan="1"></div>
+      <div nz-col nzSpan="6">
+        <app-side-bar></app-side-bar>
+        <app-subreddit-side-bar></app-subreddit-side-bar>
       </div>
     </div>
   </div>
+</div>

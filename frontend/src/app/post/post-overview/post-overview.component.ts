@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostModel } from '../post-model';
-import { PostService } from '../post.service';
+import { PostModel } from '../../shared/post-model';
+import { PostService } from '../../shared/post.service';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-title',
-  templateUrl: './post-title.component.html',
-  styleUrls: ['./post-title.component.css']
+  templateUrl: './post-overview.component.html',
+  styleUrls: ['./post-overview.component.css']
 })
-export class PostTitleComponent implements OnInit {
+export class PostOverviewComponent implements OnInit {
 
 
   faComments = faComments;
@@ -27,8 +27,7 @@ export class PostTitleComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   goToPost(slug: string): void {
     this.router.navigateByUrl('/view-post/' + slug);
