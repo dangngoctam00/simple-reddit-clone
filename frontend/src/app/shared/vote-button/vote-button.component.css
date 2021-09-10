@@ -4,6 +4,7 @@
   text-align: center;
   flex-direction: column;
   font-size: 1em;
+  padding: 0px 4px;
 }
 
 .up-vote,

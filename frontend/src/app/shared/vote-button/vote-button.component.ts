@@ -107,6 +107,7 @@ export class VoteButtonComponent implements OnInit {
   }
 
   getPostDetails(): void {
+    console.log('abc');
     // tslint:disable-next-line: deprecation
     this.postService.getPostBySlug(this.post.slug).subscribe(data => this.post = data, err => console.log('get post failed'));
   }

@@ -1,8 +1,8 @@
 <div nz-row class="post" *ngFor="let post of posts">
-  <div nz-col nzSpan="1" class="vote-post">
+  <div nz-col nzSpan="2" class="vote-post">
       <app-vote-button [post] = "post" ></app-vote-button>
   </div>
-  <div nz-col nzSpan="23" class="body">
+  <div nz-col nzSpan="22" class="body">
     <div class="meta-information">
       <span class="subreddit-text"><a class="post-url" href="">{{post.subRedditName}}</a></span>
       <span>
